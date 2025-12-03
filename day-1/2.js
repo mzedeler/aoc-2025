@@ -18,10 +18,8 @@ console.log(
     .reduce(
       (acc, r) => {
         const p = acc.at(-1)[0]
-        const clicks = getClicks(p, r)
-        const result = [...acc, [rotate(p, r), clicks] ]
-        console.log({ last: acc.at(-1), r, clicks, result })
-        return result
+        return [...acc, [rotate(p, r), getClicks(p, r)] ]
       }, [[50, 0]]
     )
+    .reduce((acc, [_, c]) => acc + c, 0)
 )
