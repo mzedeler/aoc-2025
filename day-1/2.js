@@ -1,7 +1,10 @@
 #!/usr/bin/env node 
 
-const rotate = (l, r) => ((l + r) % 100 + 100) % 100
-const clicks = (l, r) => Math.abs(Math.floor(r/100)) + ((l + r) >= 100 || (l + r) <= 0) ? 1 : 0
+const rotate = (p, r) => ((p + r) % 100 + 100) % 100
+const getClicks = (p, r) => {
+  const [_p, _r] = r < 0 ? [rotate(100, -p), -r] : [p, r]
+  return Math.abs(Math.floor((_p + _r)/100))
+}
 
 console.log(
   require("fs")
@@ -12,5 +15,13 @@ console.log(
     .split(/\s+/)
     .filter(r => r)
     .map(r => parseInt(r, 10))
-    .reduce((acc, r) => [...acc, [rotate(acc.at(-1)[0], r), clicks(acc.at(-1)[0], r)] ], [[50, 0]])
+    .reduce(
+      (acc, r) => {
+        const p = acc.at(-1)[0]
+        const clicks = getClicks(p, r)
+        const result = [...acc, [rotate(p, r), clicks] ]
+        console.log({ last: acc.at(-1), r, clicks, result })
+        return result
+      }, [[50, 0]]
+    )
 )
