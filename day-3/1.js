@@ -1,7 +1,5 @@
 #!/usr/bin/env node 
 
-const re = /^(\d+)\1$/
-
 console.log(
   require("fs")
     .readFileSync(0)
